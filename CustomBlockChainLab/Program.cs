@@ -1,3 +1,5 @@
+using CustomBlockChainLab.Repositories;
+using CustomBlockChainLab.Repositories.Interfaces;
 using CustomBlockChainLab.Services;
 using CustomBlockChainLab.Services.Interfaces;
 
@@ -8,6 +10,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 
 builder.Services.AddTransient<IChainService, ChainService>();
+builder.Services.AddTransient<IChainRepository, ChainRepository>();
 
 var app = builder.Build();
 
