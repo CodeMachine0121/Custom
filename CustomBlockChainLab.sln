@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomBlockChainLab", "CustomBlockChainLab\CustomBlockChainLab.csproj", "{F7D56B60-A276-4C6F-9127-5AB747A84D58}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomBlockChainLabUnitTests", "CustomBlockChainLabUnitTests\CustomBlockChainLabUnitTests.csproj", "{27DD6BD2-646F-47B5-81AA-56DB83B3B25F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F7D56B60-A276-4C6F-9127-5AB747A84D58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7D56B60-A276-4C6F-9127-5AB747A84D58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7D56B60-A276-4C6F-9127-5AB747A84D58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7D56B60-A276-4C6F-9127-5AB747A84D58}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27DD6BD2-646F-47B5-81AA-56DB83B3B25F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27DD6BD2-646F-47B5-81AA-56DB83B3B25F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27DD6BD2-646F-47B5-81AA-56DB83B3B25F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27DD6BD2-646F-47B5-81AA-56DB83B3B25F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
