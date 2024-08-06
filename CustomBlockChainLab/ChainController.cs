@@ -7,6 +7,7 @@ namespace CustomBlockChainLab;
 [Route("api/v1/[controller]")]
 public class ChainController(IChainService chainService) : ControllerBase 
 {
+    [HttpGet("{id}")]
     public ApiResponse GetBlockById(int id)
     {
         var block = chainService.GetBlockById(id);
