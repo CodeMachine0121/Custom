@@ -1,8 +1,13 @@
+using CustomBlockChainLab.Services;
+using CustomBlockChainLab.Services.Interfaces;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
+
+builder.Services.AddTransient<IChainService, ChainService>();
 
 var app = builder.Build();
 
