@@ -1,4 +1,5 @@
 using CustomBlockChainLab;
+using CustomBlockChainLab.Models.Domains;
 using CustomBlockChainLab.Models.Http;
 using CustomBlockChainLab.Services.Interfaces;
 using FluentAssertions;
@@ -31,5 +32,33 @@ public class ChainControllerTests
     {
         _chainController.GetBlockById(1);
         _chainService.Received()!.GetBlockById(Arg.Any<int>());
+    }
+
+    [Test]
+    public void should_get_response_with_block()
+    {
+        var timeStamp = DateTime.Now;
+        _chainService!.GetBlockById(Arg.Any<int>()).Returns(new Block()
+        {
+            Id = 1,
+            Data = "data",
+            Hash = "any-hash",
+            PreviousHash = "any-previous-hash",
+            TimeStamp = timeStamp,
+            Nonce = 0
+        });
+        
+        var response = _chainController.GetBlockById(1);
+        
+        response.Data.Should().BeEquivalentTo(new Block()
+        {
+            Id = 1,
+            Data = "data",
+            Hash = "any-hash",
+            PreviousHash = "any-previous-hash",
+            TimeStamp = timeStamp,
+            Nonce = 0
+        });
+        
     }
 }

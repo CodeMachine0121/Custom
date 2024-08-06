@@ -12,6 +12,7 @@ public class ChainController(IChainService chainService) : ControllerBase
         var block = chainService.GetBlockById(id);
         return new ApiResponse()
         {
+            Data = block,
             Status = ResponseStatus.Ok
         };
     }
