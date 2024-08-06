@@ -10,10 +10,6 @@ public class ChainController(IChainService chainService) : ControllerBase
     public ApiResponse GetBlockById(int id)
     {
         var block = chainService.GetBlockById(id);
-        return new ApiResponse()
-        {
-            Data = block,
-            Status = ResponseStatus.Ok
-        };
+        return ApiResponse.SuccessWithData(block);
     }
 }
