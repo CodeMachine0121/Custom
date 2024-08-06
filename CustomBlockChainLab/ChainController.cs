@@ -1,3 +1,4 @@
+using CustomBlockChainLab.Models.Http;
 using CustomBlockChainLab.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,15 +15,4 @@ public class ChainController(IChainService chainService) : ControllerBase
             Status = ResponseStatus.Ok
         };
     }
-}
-
-public class ApiResponse
-{
-    public ResponseStatus Status { get; set; }
-}
-
-public enum ResponseStatus
-{
-    Ok=0,
-    Error=1
 }

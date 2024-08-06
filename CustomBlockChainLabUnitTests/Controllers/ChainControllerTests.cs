@@ -1,4 +1,5 @@
 using CustomBlockChainLab;
+using CustomBlockChainLab.Models.Http;
 using CustomBlockChainLab.Services.Interfaces;
 using FluentAssertions;
 using NSubstitute;
