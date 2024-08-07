@@ -1,3 +1,4 @@
+using CustomBlockChainLab.Models;
 using CustomBlockChainLab.Models.Domains;
 using CustomBlockChainLab.Repositories.Interfaces;
 using CustomBlockChainLab.Services;
@@ -30,5 +31,21 @@ public class ChainServiceTests
         var block = _chainService.GetBlockById(1);
         
         block.Id.Should().Be(1);
+    }
+
+    [Test]
+    public void should_generate_new_block()
+    {
+        _chainRepository?.GetBlockBy(0).Returns(new Block
+        {
+            Hash = "123",
+        });
+        
+        var block = _chainService.GenerateNewBlock(new GenerateNewBlockDto
+        {
+            Data = "data"
+        });
+        
+        block.PreviousHash.Should().Be("123");
     }
 }

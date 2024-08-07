@@ -14,6 +14,13 @@ public class ChainService(IChainRepository chainRepository) : IChainService
 
     public Block GenerateNewBlock(GenerateNewBlockDto dto)
     {
-        throw new NotImplementedException();
+        var firstBlock = chainRepository.GetBlockBy(0);
+        return new Block
+        {
+            Data = dto.Data,
+            PreviousHash = firstBlock.Hash,
+            TimeStamp = DateTime.Now,
+            Nonce = 0
+        };
     }
 }
