@@ -18,18 +18,9 @@ public class ChainService(IChainRepository chainRepository) : IChainService
     public Block GenerateNewBlock(GenerateNewBlockDto dto)
     {
         var firstBlock = chainRepository.GetBlockBy(0);
-
-        var newBlock = new Block
-        {
-            Data = dto.Data,
-            PreviousHash = firstBlock.Hash,
-            TimeStamp = dto.TimeStamp,
-            Hash = HashHelper.ToSha256($"{dto.TimeStamp}:{firstBlock.Hash}:{dto.Data}:{Nonce}"),
-            Nonce = Nonce
-        };
+        var newBlock = firstBlock.GenerateNextBlock(dto, Nonce);
         
         chainRepository.InsertBlock(newBlock);
-        
         return newBlock;
     }
 }

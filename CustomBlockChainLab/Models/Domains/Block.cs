@@ -1,3 +1,6 @@
+using CustomBlockChainLab.Helpers;
+using CustomBlockChainLab.Services;
+
 namespace CustomBlockChainLab.Models.Domains;
 
 public class Block
@@ -8,4 +11,16 @@ public class Block
     public string PreviousHash { get; set; }
     public DateTime TimeStamp { get; set; }
     public int Nonce { get; set; }
+
+    public Block GenerateNextBlock(GenerateNewBlockDto dto, int nonce)
+    {
+        return new Block
+        {
+            Data = dto.Data,
+            PreviousHash = Hash,
+            TimeStamp = dto.TimeStamp,
+            Hash = HashHelper.ToSha256($"{dto.TimeStamp}:{Hash}:{dto.Data}:{nonce}"),
+            Nonce = nonce
+        };
+    }
 }
