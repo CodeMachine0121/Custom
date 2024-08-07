@@ -15,7 +15,8 @@ public class ChainController(IChainService chainService) : ControllerBase
         return ApiResponse.SuccessWithData(block);
     }
 
-    public ApiResponse GenerateNewBlock(GenerateNewBlockRequest request)
+    [HttpPost("new")]
+    public ApiResponse GenerateNewBlock([FromBody] GenerateNewBlockRequest request)
     {
         var newBlock = chainService.GenerateNewBlock(request.ToDto());
         return ApiResponse.SuccessWithData(newBlock);
