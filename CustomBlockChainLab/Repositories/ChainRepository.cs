@@ -17,4 +17,9 @@ public class ChainRepository: IChainRepository
             Nonce = 0
         };
     }
+
+    public void InsertBlock(Block newBlock)
+    {
+        throw new NotImplementedException();
+    }
 }

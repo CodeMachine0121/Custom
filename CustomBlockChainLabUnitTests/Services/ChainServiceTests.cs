@@ -26,11 +26,11 @@ public class ChainServiceTests
     {
         _chainRepository!.GetBlockBy(Arg.Any<int>()).Returns(new Block
         {
-            Id = 1,
+            Id = 1
         });
-        
+
         var block = _chainService.GetBlockById(1);
-        
+
         block.Id.Should().Be(1);
     }
 
@@ -39,18 +39,35 @@ public class ChainServiceTests
     {
         _chainRepository?.GetBlockBy(0).Returns(new Block
         {
-            Hash = "123",
+            Hash = "123"
         });
         var timeStamp = DateTime.Now;
         var hashRawData = $"{timeStamp}:123:data:{0}";
-        
+
         var block = _chainService.GenerateNewBlock(new GenerateNewBlockDto
         {
             TimeStamp = timeStamp,
             Data = "data"
         });
-       
-       block.PreviousHash.Should().Be("123");
-       block.Hash.Should().Be(HashHelper.ToSha256(hashRawData));
+
+        block.PreviousHash.Should().Be("123");
+        block.Hash.Should().Be(HashHelper.ToSha256(hashRawData));
+    }
+
+    [Test]
+    public void should_insert_new_block_to_chain()
+    {
+        _chainRepository?.GetBlockBy(0).Returns(new Block
+        {
+            Hash = "123"
+        });
+        
+        _chainService.GenerateNewBlock(new GenerateNewBlockDto
+        {
+            Data = "",
+            TimeStamp = DateTime.Now
+        });
+
+        _chainRepository.Received()!.InsertBlock(Arg.Any<Block>());
     }
 }

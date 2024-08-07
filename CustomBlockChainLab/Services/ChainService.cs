@@ -18,15 +18,18 @@ public class ChainService(IChainRepository chainRepository) : IChainService
     public Block GenerateNewBlock(GenerateNewBlockDto dto)
     {
         var firstBlock = chainRepository.GetBlockBy(0);
-        
-        var hashRawData = $"{dto.TimeStamp}:{firstBlock.Hash}:{dto.Data}:{Nonce}";
-        return new Block
+
+        var newBlock = new Block
         {
             Data = dto.Data,
             PreviousHash = firstBlock.Hash,
             TimeStamp = dto.TimeStamp,
-            Hash = HashHelper.ToSha256(hashRawData),
+            Hash = HashHelper.ToSha256($"{dto.TimeStamp}:{firstBlock.Hash}:{dto.Data}:{Nonce}"),
             Nonce = Nonce
         };
+        
+        chainRepository.InsertBlock(newBlock);
+        
+        return newBlock;
     }
 }
