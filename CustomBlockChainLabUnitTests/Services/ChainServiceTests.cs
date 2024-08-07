@@ -1,3 +1,4 @@
+using CustomBlockChainLab.Helpers;
 using CustomBlockChainLab.Models;
 using CustomBlockChainLab.Models.Domains;
 using CustomBlockChainLab.Repositories.Interfaces;
@@ -40,12 +41,16 @@ public class ChainServiceTests
         {
             Hash = "123",
         });
+        var timeStamp = DateTime.Now;
+        var hashRawData = $"{timeStamp}:123:data:{0}";
         
         var block = _chainService.GenerateNewBlock(new GenerateNewBlockDto
         {
+            TimeStamp = timeStamp,
             Data = "data"
         });
-        
-        block.PreviousHash.Should().Be("123");
+       
+       block.PreviousHash.Should().Be("123");
+       block.Hash.Should().Be(HashHelper.ToSha256(hashRawData));
     }
 }

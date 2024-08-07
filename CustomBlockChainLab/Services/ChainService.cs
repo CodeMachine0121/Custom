@@ -1,3 +1,4 @@
+using CustomBlockChainLab.Helpers;
 using CustomBlockChainLab.Models;
 using CustomBlockChainLab.Models.Domains;
 using CustomBlockChainLab.Repositories.Interfaces;
@@ -7,6 +8,8 @@ namespace CustomBlockChainLab.Services;
 
 public class ChainService(IChainRepository chainRepository) : IChainService
 {
+    private const int Nonce = 0;
+
     public Block GetBlockById(int i)
     {
         return chainRepository.GetBlockBy(i);
@@ -15,12 +18,15 @@ public class ChainService(IChainRepository chainRepository) : IChainService
     public Block GenerateNewBlock(GenerateNewBlockDto dto)
     {
         var firstBlock = chainRepository.GetBlockBy(0);
+        
+        var hashRawData = $"{dto.TimeStamp}:{firstBlock.Hash}:{dto.Data}:{Nonce}";
         return new Block
         {
             Data = dto.Data,
             PreviousHash = firstBlock.Hash,
-            TimeStamp = DateTime.Now,
-            Nonce = 0
+            TimeStamp = dto.TimeStamp,
+            Hash = HashHelper.ToSha256(hashRawData),
+            Nonce = Nonce
         };
     }
 }
