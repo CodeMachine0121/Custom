@@ -1,4 +1,5 @@
 using CustomBlockChainLab;
+using CustomBlockChainLab.Models;
 using CustomBlockChainLab.Models.Domains;
 using CustomBlockChainLab.Models.Http;
 using CustomBlockChainLab.Services.Interfaces;
@@ -60,5 +61,19 @@ public class ChainControllerTests
             Nonce = 0
         });
         
+    }
+
+    [Test]
+    public void should_generate_new_block()
+    {
+        _chainService!.GenerateNewBlock(Arg.Any<GenerateNewBlockDto>()).Returns(new Block());
+        
+        var response = _chainController.GenerateNewBlock(new GenerateNewBlockRequest()
+        {
+            Data = "data"
+        });
+        
+        _chainService.Received()?.GenerateNewBlock(Arg.Any<GenerateNewBlockDto>());
+        response.Data.GetType().Should().Be(typeof(Block));
     }
 }

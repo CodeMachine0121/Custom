@@ -1,3 +1,4 @@
+using CustomBlockChainLab.Models;
 using CustomBlockChainLab.Models.Http;
 using CustomBlockChainLab.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -12,5 +13,14 @@ public class ChainController(IChainService chainService) : ControllerBase
     {
         var block = chainService.GetBlockById(id);
         return ApiResponse.SuccessWithData(block);
+    }
+
+    public ApiResponse GenerateNewBlock(GenerateNewBlockRequest request)
+    {
+        var newBlock = chainService.GenerateNewBlock(new GenerateNewBlockDto()
+        {
+            Data =  request.Data
+        });
+        return ApiResponse.SuccessWithData(newBlock);
     }
 }
