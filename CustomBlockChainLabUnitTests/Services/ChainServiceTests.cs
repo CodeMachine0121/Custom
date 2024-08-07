@@ -24,7 +24,7 @@ public class ChainServiceTests
     [Test]
     public void should_get_block_by_repo()
     {
-        _chainRepository!.GetBlockBy(Arg.Any<int>()).Returns(new Block
+        GivenBlock(new Block
         {
             Id = 1
         });
@@ -37,7 +37,7 @@ public class ChainServiceTests
     [Test]
     public void should_generate_new_block()
     {
-        _chainRepository?.GetBlockBy(0).Returns(new Block
+        GivenBlock(new Block
         {
             Hash = "123"
         });
@@ -57,11 +57,11 @@ public class ChainServiceTests
     [Test]
     public void should_insert_new_block_to_chain()
     {
-        _chainRepository?.GetBlockBy(0).Returns(new Block
+        GivenBlock(new Block
         {
             Hash = "123"
         });
-        
+
         _chainService.GenerateNewBlock(new GenerateNewBlockDto
         {
             Data = "",
@@ -69,5 +69,10 @@ public class ChainServiceTests
         });
 
         _chainRepository.Received()!.InsertBlock(Arg.Any<Block>());
+    }
+
+    private void GivenBlock(Block block)
+    {
+        _chainRepository?.GetBlockBy(Arg.Any<int>()).Returns(block);
     }
 }
