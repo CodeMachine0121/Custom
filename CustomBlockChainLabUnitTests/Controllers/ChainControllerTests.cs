@@ -39,7 +39,7 @@ public class ChainControllerTests
     public void should_get_response_with_block()
     {
         var timeStamp = DateTime.Now;
-        _chainService!.GetBlockById(Arg.Any<int>()).Returns(new Block()
+        _chainService!.GetBlockById(Arg.Any<int>()).Returns(new BlockDomain()
         {
             Id = 1,
             Data = "data",
@@ -51,7 +51,7 @@ public class ChainControllerTests
         
         var response = _chainController.GetBlockById(1);
         
-        response.Data.Should().BeEquivalentTo(new Block()
+        response.Data.Should().BeEquivalentTo(new BlockDomain()
         {
             Id = 1,
             Data = "data",
@@ -66,7 +66,7 @@ public class ChainControllerTests
     [Test]
     public void should_generate_new_block()
     {
-        _chainService!.GenerateNewBlock(Arg.Any<GenerateNewBlockDto>()).Returns(new Block());
+        _chainService!.GenerateNewBlock(Arg.Any<GenerateNewBlockDto>()).Returns(new BlockDomain());
         
         var response = _chainController.GenerateNewBlock(new GenerateNewBlockRequest()
         {
@@ -74,6 +74,6 @@ public class ChainControllerTests
         });
         
         _chainService.Received()?.GenerateNewBlock(Arg.Any<GenerateNewBlockDto>());
-        response.Data.GetType().Should().Be(typeof(Block));
+        response.Data.GetType().Should().Be(typeof(BlockDomain));
     }
 }

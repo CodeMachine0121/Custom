@@ -24,7 +24,7 @@ public class ChainServiceTests
     [Test]
     public void should_get_block_by_repo()
     {
-        GivenBlock(new Block
+        GivenBlock(new BlockDomain
         {
             Id = 1
         });
@@ -37,7 +37,7 @@ public class ChainServiceTests
     [Test]
     public void should_generate_new_block()
     {
-        GivenBlock(new Block
+        GivenBlock(new BlockDomain
         {
             Hash = "123"
         });
@@ -57,7 +57,7 @@ public class ChainServiceTests
     [Test]
     public void should_insert_new_block_to_chain()
     {
-        GivenBlock(new Block
+        GivenBlock(new BlockDomain
         {
             Hash = "123"
         });
@@ -68,11 +68,11 @@ public class ChainServiceTests
             TimeStamp = DateTime.Now
         });
 
-        _chainRepository.Received()!.InsertBlock(Arg.Any<Block>());
+        _chainRepository.Received()!.InsertBlock(Arg.Any<BlockDomain>());
     }
 
-    private void GivenBlock(Block block)
+    private void GivenBlock(BlockDomain blockDomain)
     {
-        _chainRepository?.GetBlockBy(Arg.Any<int>()).Returns(block);
+        _chainRepository?.GetBlockBy(Arg.Any<int>()).Returns(blockDomain);
     }
 }

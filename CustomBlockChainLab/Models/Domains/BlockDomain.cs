@@ -3,7 +3,7 @@ using CustomBlockChainLab.Services;
 
 namespace CustomBlockChainLab.Models.Domains;
 
-public class Block
+public class BlockDomain
 {
     public int Id { get; set; }
     public string Data { get; set; }
@@ -12,9 +12,9 @@ public class Block
     public DateTime TimeStamp { get; set; }
     public int Nonce { get; set; }
 
-    public Block GenerateNextBlock(GenerateNewBlockDto dto, int nonce)
+    public BlockDomain GenerateNextBlock(GenerateNewBlockDto dto, int nonce)
     {
-        return new Block
+        return new BlockDomain
         {
             Data = dto.Data,
             PreviousHash = Hash,

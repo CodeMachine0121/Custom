@@ -5,9 +5,9 @@ namespace CustomBlockChainLab.Repositories;
 
 public class ChainRepository: IChainRepository
 {
-    public Block GetBlockBy(int id)
+    public BlockDomain GetBlockBy(int id)
     {
-        return new Block
+        return new BlockDomain
         {
             Id = id,
             Data = "mock-data",
@@ -18,7 +18,7 @@ public class ChainRepository: IChainRepository
         };
     }
 
-    public void InsertBlock(Block newBlock)
+    public void InsertBlock(BlockDomain newBlockDomain)
     {
         throw new NotImplementedException();
     }

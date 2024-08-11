@@ -10,12 +10,12 @@ public class ChainService(IChainRepository chainRepository) : IChainService
 {
     private const int Nonce = 0;
 
-    public Block GetBlockById(int i)
+    public BlockDomain GetBlockById(int i)
     {
         return chainRepository.GetBlockBy(i);
     }
 
-    public Block GenerateNewBlock(GenerateNewBlockDto dto)
+    public BlockDomain GenerateNewBlock(GenerateNewBlockDto dto)
     {
         var firstBlock = chainRepository.GetBlockBy(0);
         var newBlock = firstBlock.GenerateNextBlock(dto, Nonce);

@@ -1,7 +1,9 @@
+using CustomBlockChainLab.Models.DataBases;
 using CustomBlockChainLab.Repositories;
 using CustomBlockChainLab.Repositories.Interfaces;
 using CustomBlockChainLab.Services;
 using CustomBlockChainLab.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +14,18 @@ builder.Services.AddControllers();
 builder.Services.AddTransient<IChainService, ChainService>();
 builder.Services.AddTransient<IChainRepository, ChainRepository>();
 
+builder.Services.AddDbContext<BlockchainDbContext>(options =>
+{
+    var connectionString = builder.Configuration.GetValue<string>("Sql");
+    
+    connectionString = connectionString!.Replace("${DB_SERVER}", Environment.GetEnvironmentVariables()["DB_SERVER"]!.ToString());
+    connectionString = connectionString.Replace("${DB_NAME}", Environment.GetEnvironmentVariables()["DB_NAME"]!.ToString());
+    connectionString = connectionString.Replace("${DB_USER}", Environment.GetEnvironmentVariables()["DB_USER"]!.ToString());
+    connectionString = connectionString.Replace("${DB_PASS}", Environment.GetEnvironmentVariables()["DB_PASS"]!.ToString());
+    
+    options.UseSqlServer(connectionString);
+}, ServiceLifetime.Transient);
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -19,6 +33,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
 
 app.MapControllers();
 app.UseHttpsRedirection();
