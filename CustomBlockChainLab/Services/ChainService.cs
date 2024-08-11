@@ -26,7 +26,7 @@ public class ChainService(IChainRepository chainRepository) : IChainService
                 TimeStamp = DateTime.Now,
                 Nonce = 0
             }
-            : (await chainRepository.GetBlockBy(chainLength - 1)).GenerateNextBlock(dto, Nonce);
+            : (await chainRepository.GetBlockBy(chainLength)).GenerateNextBlock(dto, Nonce);
 
         await chainRepository.InsertBlock(newBlock);
         return newBlock;

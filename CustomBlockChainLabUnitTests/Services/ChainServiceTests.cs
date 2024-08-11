@@ -21,20 +21,20 @@ public class ChainServiceTests
     }
 
     [Test]
-    public void should_insert_new_block_to_chain()
+    public async Task should_insert_new_block_to_chain()
     {
         GivenBlock(new BlockDomain
         {
             Hash = "123"
         });
 
-        _chainService.GenerateNewBlock(new GenerateNewBlockDto
+       await _chainService.GenerateNewBlock(new GenerateNewBlockDto
         {
             Data = "",
             TimeStamp = DateTime.Now
         });
 
-        _chainRepository.Received()!.InsertBlock(Arg.Any<BlockDomain>());
+        await _chainRepository.Received()!.InsertBlock(Arg.Any<BlockDomain>());
     }
 
     [Test]
@@ -47,7 +47,7 @@ public class ChainServiceTests
             TimeStamp = DateTime.Now
         });
 
-        _chainRepository.DidNotReceive().GetBlockBy(Arg.Any<int>());
+        await _chainRepository.DidNotReceive().GetBlockBy(Arg.Any<int>());
         await _chainRepository.Received().InsertBlock(Arg.Is<BlockDomain>(b => b.Data == "Genesis Block"));
     }
 
@@ -67,7 +67,7 @@ public class ChainServiceTests
             TimeStamp = DateTime.Now
         });
 
-        _chainRepository.Received().GetBlockBy(Arg.Is<int>(i => i==1-1));
+        await _chainRepository.Received().GetBlockBy(Arg.Is<int>(i => i==1));
         newBlock.PreviousHash.Should().Be("123");
     }
 
