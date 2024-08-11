@@ -29,4 +29,9 @@ public class ChainRepository(BlockchainDbContext blockchainDbContext): IChainRep
         await _blocks.AddAsync(newBlockDomain.ToEntity());
         await blockchainDbContext.SaveChangesAsync();
     }
+
+    public Task<int> GetChainLength()
+    {
+        return _blocks.CountAsync();
+    }
 }

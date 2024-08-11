@@ -35,26 +35,6 @@ public class ChainServiceTests
     }
 
     [Test]
-    public async Task should_generate_new_block()
-    {
-        GivenBlock(new BlockDomain
-        {
-            Hash = "123"
-        });
-        var timeStamp = DateTime.Now;
-        var hashRawData = $"{timeStamp}:123:data:{0}";
-
-        var block = await _chainService.GenerateNewBlock(new GenerateNewBlockDto
-        {
-            TimeStamp = timeStamp,
-            Data = "data"
-        });
-
-        block.PreviousHash.Should().Be("123");
-        block.Hash.Should().Be(HashHelper.ToSha256(hashRawData));
-    }
-
-    [Test]
     public void should_insert_new_block_to_chain()
     {
         GivenBlock(new BlockDomain
@@ -69,6 +49,20 @@ public class ChainServiceTests
         });
 
         _chainRepository.Received()!.InsertBlock(Arg.Any<BlockDomain>());
+    }
+
+    [Test]
+    public async Task should_generate_new_block_base_on_latest_block()
+    {
+        _chainRepository!.GetChainLength().Returns(0);
+        await _chainService.GenerateNewBlock(new GenerateNewBlockDto()
+        {
+            Data = "new",
+            TimeStamp = DateTime.Now
+        });
+
+        _chainRepository.DidNotReceive().GetBlockBy(Arg.Any<int>());
+        await _chainRepository.Received().InsertBlock(Arg.Is<BlockDomain>(b => b.Data == "Genesis Block"));
     }
 
     private void GivenBlock(BlockDomain blockDomain)

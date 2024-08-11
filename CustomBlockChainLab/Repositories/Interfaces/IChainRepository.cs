@@ -6,4 +6,5 @@ public interface IChainRepository
 {
     BlockDomain GetBlockBy(int any);
     Task InsertBlock(BlockDomain newBlockDomain);
+    Task<int> GetChainLength();
 }

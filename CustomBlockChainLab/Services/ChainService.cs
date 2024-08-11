@@ -17,7 +17,21 @@ public class ChainService(IChainRepository chainRepository) : IChainService
 
     public async Task<BlockDomain> GenerateNewBlock(GenerateNewBlockDto dto)
     {
+        if (await chainRepository.GetChainLength() == 0)
+        {
+            var genesisBlock = new BlockDomain
+            {
+                Data = "Genesis Block",
+                Hash = "0",
+                PreviousHash = "0",
+                TimeStamp = DateTime.Now,
+                Nonce = 0
+            };
+            await chainRepository.InsertBlock(genesisBlock);
+            return genesisBlock;
+        }
         var firstBlock = chainRepository.GetBlockBy(0);
+        
         var newBlock = firstBlock.GenerateNextBlock(dto, Nonce);
         
         await chainRepository.InsertBlock(newBlock);
