@@ -16,9 +16,9 @@ public class ChainController(IChainService chainService) : ControllerBase
     }
 
     [HttpPost("new")]
-    public ApiResponse GenerateNewBlock([FromBody] GenerateNewBlockRequest request)
+    public async Task<ApiResponse> GenerateNewBlock([FromBody] GenerateNewBlockRequest request)
     {
-        var newBlock = chainService.GenerateNewBlock(request.ToDto());
+        var newBlock = await chainService.GenerateNewBlock(request.ToDto());
         return ApiResponse.SuccessWithData(newBlock);
     }
 }

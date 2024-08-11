@@ -1,4 +1,5 @@
 using CustomBlockChainLab.Helpers;
+using CustomBlockChainLab.Models.Entities;
 using CustomBlockChainLab.Services;
 
 namespace CustomBlockChainLab.Models.Domains;
@@ -21,6 +22,18 @@ public class BlockDomain
             TimeStamp = dto.TimeStamp,
             Hash = HashHelper.ToSha256($"{dto.TimeStamp}:{Hash}:{dto.Data}:{nonce}"),
             Nonce = nonce
+        };
+    }
+
+    public Block ToEntity()
+    {
+        return new Block
+        {
+            Data = Data,
+            Hash = Hash,
+            PreviousHash = PreviousHash,
+            TimeStamp = TimeStamp,
+            Nonce = Nonce
         };
     }
 }

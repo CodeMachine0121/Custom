@@ -35,7 +35,7 @@ public class ChainServiceTests
     }
 
     [Test]
-    public void should_generate_new_block()
+    public async Task should_generate_new_block()
     {
         GivenBlock(new BlockDomain
         {
@@ -44,7 +44,7 @@ public class ChainServiceTests
         var timeStamp = DateTime.Now;
         var hashRawData = $"{timeStamp}:123:data:{0}";
 
-        var block = _chainService.GenerateNewBlock(new GenerateNewBlockDto
+        var block = await _chainService.GenerateNewBlock(new GenerateNewBlockDto
         {
             TimeStamp = timeStamp,
             Data = "data"

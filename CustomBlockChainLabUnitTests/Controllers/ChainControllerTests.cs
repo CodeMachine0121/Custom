@@ -64,11 +64,11 @@ public class ChainControllerTests
     }
 
     [Test]
-    public void should_generate_new_block()
+    public async Task should_generate_new_block()
     {
         _chainService!.GenerateNewBlock(Arg.Any<GenerateNewBlockDto>()).Returns(new BlockDomain());
         
-        var response = _chainController.GenerateNewBlock(new GenerateNewBlockRequest()
+        var response = await _chainController.GenerateNewBlock(new GenerateNewBlockRequest()
         {
             Data = "data"
         });

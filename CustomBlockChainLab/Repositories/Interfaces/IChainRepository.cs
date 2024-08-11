@@ -5,5 +5,5 @@ namespace CustomBlockChainLab.Repositories.Interfaces;
 public interface IChainRepository
 {
     BlockDomain GetBlockBy(int any);
-    void InsertBlock(BlockDomain newBlockDomain);
+    Task InsertBlock(BlockDomain newBlockDomain);
 }

@@ -1,10 +1,16 @@
+using CustomBlockChainLab.Models.DataBases;
 using CustomBlockChainLab.Models.Domains;
+using CustomBlockChainLab.Models.Entities;
 using CustomBlockChainLab.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace CustomBlockChainLab.Repositories;
 
-public class ChainRepository: IChainRepository
+public class ChainRepository(BlockchainDbContext blockchainDbContext): IChainRepository
 {
+    private DbSet<Block> _blocks = blockchainDbContext.Blocks;
+
+
     public BlockDomain GetBlockBy(int id)
     {
         return new BlockDomain
@@ -18,8 +24,9 @@ public class ChainRepository: IChainRepository
         };
     }
 
-    public void InsertBlock(BlockDomain newBlockDomain)
+    public async Task InsertBlock(BlockDomain newBlockDomain)
     {
-        throw new NotImplementedException();
+        await _blocks.AddAsync(newBlockDomain.ToEntity());
+        await blockchainDbContext.SaveChangesAsync();
     }
 }

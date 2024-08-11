@@ -15,12 +15,12 @@ public class ChainService(IChainRepository chainRepository) : IChainService
         return chainRepository.GetBlockBy(i);
     }
 
-    public BlockDomain GenerateNewBlock(GenerateNewBlockDto dto)
+    public async Task<BlockDomain> GenerateNewBlock(GenerateNewBlockDto dto)
     {
         var firstBlock = chainRepository.GetBlockBy(0);
         var newBlock = firstBlock.GenerateNextBlock(dto, Nonce);
         
-        chainRepository.InsertBlock(newBlock);
+        await chainRepository.InsertBlock(newBlock);
         return newBlock;
     }
 }
