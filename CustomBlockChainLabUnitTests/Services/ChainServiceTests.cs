@@ -52,7 +52,7 @@ public class ChainServiceTests
     }
 
     [Test]
-    public async Task should_generate_new_block_base_on_latest_block()
+    public async Task should_not_request_block_when_the_length_is_0()
     {
         _chainRepository!.GetChainLength().Returns(0);
         await _chainService.GenerateNewBlock(new GenerateNewBlockDto()
@@ -63,6 +63,26 @@ public class ChainServiceTests
 
         _chainRepository.DidNotReceive().GetBlockBy(Arg.Any<int>());
         await _chainRepository.Received().InsertBlock(Arg.Is<BlockDomain>(b => b.Data == "Genesis Block"));
+    }
+
+    [Test]
+    public async Task should_generate_new_block_base_on_latest_block()
+    {
+        _chainRepository!.GetChainLength().Returns(1);
+
+        GivenBlock(new BlockDomain
+        {
+            Hash = "123",
+        });
+
+        var newBlock = await _chainService.GenerateNewBlock(new GenerateNewBlockDto()
+        {
+            Data = "new",
+            TimeStamp = DateTime.Now
+        });
+
+        _chainRepository.Received().GetBlockBy(Arg.Is<int>(i => i==1-1));
+        newBlock.PreviousHash.Should().Be("123");
     }
 
     private void GivenBlock(BlockDomain blockDomain)
