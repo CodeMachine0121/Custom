@@ -22,26 +22,25 @@ public class ChainControllerTests
     }
 
     [Test]
-    public void should_be_ok()
+    public async Task should_be_ok()
     {
-        var response = _chainController.GetBlockById(1);
+        var response = await _chainController.GetBlockById(1);
         response.Status.Should().Be(ResponseStatus.Ok);
     }
 
     [Test]
-    public void should_get_block_by_service()
+    public async Task should_get_block_by_service()
     {
-        _chainController.GetBlockById(1);
-        _chainService.Received()!.GetBlockById(Arg.Any<int>());
+        await _chainController.GetBlockById(1);
+        await _chainService.Received()!.GetBlockById(Arg.Any<int>());
     }
 
     [Test]
-    public void should_get_response_with_block()
+    public async Task should_get_response_with_block()
     {
         var timeStamp = DateTime.Now;
         _chainService!.GetBlockById(Arg.Any<int>()).Returns(new BlockDomain()
         {
-            Id = 1,
             Data = "data",
             Hash = "any-hash",
             PreviousHash = "any-previous-hash",
@@ -49,11 +48,10 @@ public class ChainControllerTests
             Nonce = 0
         });
         
-        var response = _chainController.GetBlockById(1);
+        var response = await _chainController.GetBlockById(1);
         
         response.Data.Should().BeEquivalentTo(new BlockDomain()
         {
-            Id = 1,
             Data = "data",
             Hash = "any-hash",
             PreviousHash = "any-previous-hash",

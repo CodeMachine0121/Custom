@@ -9,9 +9,9 @@ namespace CustomBlockChainLab;
 public class ChainController(IChainService chainService) : ControllerBase 
 {
     [HttpGet("{id}")]
-    public ApiResponse GetBlockById(int id)
+    public async Task<ApiResponse> GetBlockById(int id)
     {
-        var block = chainService.GetBlockById(id);
+        var block = await chainService.GetBlockById(id);
         return ApiResponse.SuccessWithData(block);
     }
 

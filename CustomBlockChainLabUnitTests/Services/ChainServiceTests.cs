@@ -1,4 +1,3 @@
-using CustomBlockChainLab.Helpers;
 using CustomBlockChainLab.Models;
 using CustomBlockChainLab.Models.Domains;
 using CustomBlockChainLab.Repositories.Interfaces;
@@ -19,19 +18,6 @@ public class ChainServiceTests
     {
         _chainRepository = Substitute.For<IChainRepository>();
         _chainService = new ChainService(_chainRepository);
-    }
-
-    [Test]
-    public void should_get_block_by_repo()
-    {
-        GivenBlock(new BlockDomain
-        {
-            Id = 1
-        });
-
-        var block = _chainService.GetBlockById(1);
-
-        block.Id.Should().Be(1);
     }
 
     [Test]

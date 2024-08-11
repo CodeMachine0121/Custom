@@ -9,9 +9,9 @@ public class ChainService(IChainRepository chainRepository) : IChainService
 {
     private const int Nonce = 0;
 
-    public BlockDomain GetBlockById(int i)
+    public async Task<BlockDomain> GetBlockById(int i)
     {
-        return chainRepository.GetBlockBy(i);
+        return await chainRepository.GetBlockBy(i);
     }
 
     public async Task<BlockDomain> GenerateNewBlock(GenerateNewBlockDto dto)
@@ -26,7 +26,7 @@ public class ChainService(IChainRepository chainRepository) : IChainService
                 TimeStamp = DateTime.Now,
                 Nonce = 0
             }
-            : chainRepository.GetBlockBy(chainLength - 1).GenerateNextBlock(dto, Nonce);
+            : (await chainRepository.GetBlockBy(chainLength - 1)).GenerateNextBlock(dto, Nonce);
 
         await chainRepository.InsertBlock(newBlock);
         return newBlock;

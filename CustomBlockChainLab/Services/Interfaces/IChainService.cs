@@ -5,6 +5,6 @@ namespace CustomBlockChainLab.Services.Interfaces;
 
 public interface IChainService
 {
-    BlockDomain GetBlockById(int i);
+    Task<BlockDomain> GetBlockById(int i);
     Task<BlockDomain> GenerateNewBlock(GenerateNewBlockDto dto);
 }

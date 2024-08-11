@@ -11,27 +11,21 @@ public class ChainRepository(BlockchainDbContext blockchainDbContext): IChainRep
     private DbSet<Block> _blocks = blockchainDbContext.Blocks;
 
 
-    public BlockDomain GetBlockBy(int id)
+    public async Task<BlockDomain> GetBlockBy(int id)
     {
-        return new BlockDomain
-        {
-            Id = id,
-            Data = "mock-data",
-            Hash = "mock-hash",
-            PreviousHash = "mock-previous-hash",
-            TimeStamp = DateTime.Now,
-            Nonce = 0
-        };
+        var block = await _blocks.FirstAsync(x=>x.Id == id);
+        return block.ToDomain();
     }
 
     public async Task InsertBlock(BlockDomain newBlockDomain)
     {
-        await _blocks.AddAsync(newBlockDomain.ToEntity());
+        var entity = newBlockDomain.ToEntity();
+        await _blocks.AddAsync(entity);
         await blockchainDbContext.SaveChangesAsync();
     }
 
-    public Task<int> GetChainLength()
+    public async Task<int> GetChainLength()
     {
-        return _blocks.CountAsync();
+        return await _blocks.CountAsync();
     }
 }

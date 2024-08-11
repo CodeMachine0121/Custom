@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using CustomBlockChainLab.Models.Domains;
 
 namespace CustomBlockChainLab.Models.Entities;
 
@@ -23,4 +24,16 @@ public class Block
 
     [Required]
     public int Nonce { get; set; }
+
+    public BlockDomain ToDomain()
+    {
+        return new BlockDomain
+        {
+            Data = Data,
+            Hash = Hash,
+            PreviousHash = PreviousHash,
+            TimeStamp = TimeStamp,
+            Nonce = Nonce
+        };
+    }
 }

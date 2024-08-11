@@ -23,7 +23,7 @@ builder.Services.AddDbContext<BlockchainDbContext>(options =>
     connectionString = connectionString.Replace("${DB_USER}", Environment.GetEnvironmentVariables()["DB_USER"]!.ToString());
     connectionString = connectionString.Replace("${DB_PASS}", Environment.GetEnvironmentVariables()["DB_PASS"]!.ToString());
     
-    options.UseSqlServer(connectionString);
+    options.UseMySQL(connectionString);
 }, ServiceLifetime.Transient);
 
 var app = builder.Build();

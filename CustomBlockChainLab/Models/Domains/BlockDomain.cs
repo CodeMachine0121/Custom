@@ -6,7 +6,6 @@ namespace CustomBlockChainLab.Models.Domains;
 
 public class BlockDomain
 {
-    public int Id { get; set; }
     public string Data { get; set; }
     public string Hash { get; set; }
     public string PreviousHash { get; set; }
