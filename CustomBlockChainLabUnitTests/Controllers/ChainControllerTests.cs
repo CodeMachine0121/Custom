@@ -3,6 +3,7 @@ using CustomBlockChainLab.Models;
 using CustomBlockChainLab.Models.Domains;
 using CustomBlockChainLab.Models.Http;
 using CustomBlockChainLab.Services.Interfaces;
+using EccSDK.models;
 using FluentAssertions;
 using NSubstitute;
 
@@ -13,12 +14,16 @@ public class ChainControllerTests
 {
     private ChainController _chainController;
     private IChainService? _chainService;
+    private KeyPair _keyPair;
+    private SessionKey _sessionKey;
 
     [SetUp]
     public void SetUp()
     {
         _chainService = Substitute.For<IChainService>();
-        _chainController = new ChainController(_chainService);
+        _keyPair = Substitute.For<KeyPair>();
+        _sessionKey = Substitute.For<SessionKey>();
+        _chainController = new ChainController(_chainService, _keyPair, _sessionKey);
     }
 
     [Test]

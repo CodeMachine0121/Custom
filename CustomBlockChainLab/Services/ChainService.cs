@@ -2,6 +2,8 @@ using CustomBlockChainLab.Models;
 using CustomBlockChainLab.Models.Domains;
 using CustomBlockChainLab.Repositories.Interfaces;
 using CustomBlockChainLab.Services.Interfaces;
+using EccSDK;
+using EccSDK.models;
 
 namespace CustomBlockChainLab.Services;
 
@@ -17,15 +19,9 @@ public class ChainService(IChainRepository chainRepository) : IChainService
     public async Task<BlockDomain> GenerateNewBlock(GenerateNewBlockDto dto)
     {
         var chainLength = await chainRepository.GetChainLength();
+        
         var newBlock = chainLength == 0
-            ? new BlockDomain
-            {
-                Data = "Genesis Block",
-                Hash = "0",
-                PreviousHash = "0",
-                TimeStamp = DateTime.Now,
-                Nonce = 0
-            }
+            ? dto.GetGenesisBlock()
             : (await chainRepository.GetBlockBy(chainLength)).GenerateNextBlock(dto, Nonce);
 
         await chainRepository.InsertBlock(newBlock);

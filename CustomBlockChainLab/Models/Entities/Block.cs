@@ -25,6 +25,8 @@ public class Block
     [Required]
     public int Nonce { get; set; }
 
+    public string ChameleonSignature { get; set; }
+
     public BlockDomain ToDomain()
     {
         return new BlockDomain
