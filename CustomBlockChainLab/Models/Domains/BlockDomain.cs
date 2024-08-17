@@ -19,24 +19,29 @@ public class BlockDomain
     
     public BlockDomain GenerateNextBlock(GenerateNewBlockDto dto, int nonce)
     {
+        var message = $"{dto.TimeStamp}:{Hash}:{nonce}";
+        var chameleonHash = ChameleonHashHelper.GetChameleonHash(new ChameleonHashRequest()
+        {
+            KeyPair =dto.KeyPair ,
+            Message = Data 
+        });
+        
         return new BlockDomain
         {
             Data = dto.Data,
             PreviousHash = Hash,
             TimeStamp = dto.TimeStamp,
-            Hash = HashHelper.ToSha256($"{dto.TimeStamp}:{Hash}:{dto.Data}:{nonce}"),
+            Hash = HashHelper.ToSha256($"{message}:{chameleonHash}"),
             Nonce = nonce,
             ChameleonSignature = ChameleonHashHelper.Sign(new ChameleonHashRequest
             {
                 KeyPair = dto.KeyPair,
-                Message = $"{dto.TimeStamp}:{Hash}:{dto.Data}:{nonce}",
+                Message = message,
                 SessionKey = dto.SessionKey.Key,
                 Order = dto.KeyPair.PublicKey.Curve.Order,
             }),
         };
     }
-
-
 
     public Block ToEntity()
     {
