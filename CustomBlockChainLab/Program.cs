@@ -1,9 +1,9 @@
+using CustomBlockChainLab.Keys.Servcies;
 using CustomBlockChainLab.Models.DataBases;
 using CustomBlockChainLab.Repositories;
 using CustomBlockChainLab.Repositories.Interfaces;
 using CustomBlockChainLab.Services;
 using CustomBlockChainLab.Services.Interfaces;
-using EccSDK;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,10 +28,11 @@ builder.Services.AddDbContext<BlockchainDbContext>(options =>
     options.UseMySQL(connectionString);
 }, ServiceLifetime.Transient);
 
-var keyPair = EccGenerator.GenerateKeyPair(256);
-var sessionKey = SessionKeyGenerator.GenerateSessionKey();
-builder.Services.AddSingleton(keyPair);
-builder.Services.AddSingleton(sessionKey);
+var keyStorageService = new KeyStorageService();
+var keyData = keyStorageService.LoadKeyPair();
+
+builder.Services.AddSingleton(keyData.KeyPair);
+builder.Services.AddSingleton(keyData.SessionKey);
 
 
 var app = builder.Build();
