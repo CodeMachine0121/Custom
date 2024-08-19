@@ -1,4 +1,5 @@
 using EccSDK.models;
+using EccSDK.models.Keys;
 
 namespace CustomBlockChainLab.Models.Http;
 
@@ -6,12 +7,11 @@ public class GenerateNewBlockRequest
 {
     public string Data { get; set; }
 
-    public GenerateNewBlockDto ToDto(KeyPair keyPair, SessionKey sessionKey)
+    public GenerateNewBlockDto ToDto(KeyPairDomain keyPairDomain)
     {
         return new GenerateNewBlockDto()
         {
-            KeyPair = keyPair,
-            SessionKey = sessionKey,
+            KeyPairDomain = keyPairDomain,
             Data =  Data
         };
     }

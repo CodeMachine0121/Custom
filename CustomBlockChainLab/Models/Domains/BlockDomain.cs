@@ -1,8 +1,6 @@
 using CustomBlockChainLab.Models.Entities;
-using CustomBlockChainLab.Services;
-using EccSDK;
-using EccSDK.models;
-using Org.BouncyCastle.Math;
+using EccSDK.models.ChameleonHash;
+using EccSDK.Models.ChameleonHash;
 using HashHelper = CustomBlockChainLab.Helpers.HashHelper;
 
 namespace CustomBlockChainLab.Models.Domains;
@@ -16,32 +14,6 @@ public class BlockDomain
     public int Nonce { get; set; }
 
     public ChameleonSignature ChameleonSignature { get; set; }
-    
-    public BlockDomain GenerateNextBlock(GenerateNewBlockDto dto, int nonce)
-    {
-        var message = $"{dto.TimeStamp}:{Hash}:{nonce}";
-        var chameleonHash = ChameleonHashHelper.GetChameleonHash(new ChameleonHashRequest()
-        {
-            KeyPair =dto.KeyPair ,
-            Message = Data 
-        });
-        
-        return new BlockDomain
-        {
-            Data = dto.Data,
-            PreviousHash = Hash,
-            TimeStamp = dto.TimeStamp,
-            Hash = HashHelper.ToSha256($"{message}:{chameleonHash}"),
-            Nonce = nonce,
-            ChameleonSignature = ChameleonHashHelper.Sign(new ChameleonHashRequest
-            {
-                KeyPair = dto.KeyPair,
-                Message = message,
-                SessionKey = dto.SessionKey.Key,
-                Order = dto.KeyPair.PublicKey.Curve.Order,
-            }),
-        };
-    }
 
     public Block ToEntity()
     {
