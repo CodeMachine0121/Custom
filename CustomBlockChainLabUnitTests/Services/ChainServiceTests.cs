@@ -25,7 +25,7 @@ public class ChainServiceTests
         _chainRepository = Substitute.For<IChainRepository>();
         _keyPairDomain = Substitute.For<KeyPairDomain>();
         _chameleonHashService = Substitute.For<IChameleonHashService>();
-        _chainService = new ChainService(_chainRepository, _keyPairDomain, _chameleonHashService);
+        _chainService = new ChainService(_chainRepository);
     }
 
     [Test]
