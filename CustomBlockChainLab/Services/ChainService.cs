@@ -7,11 +7,9 @@ namespace CustomBlockChainLab.Services;
 
 public class ChainService(IChainRepository chainRepository) : IChainService
 {
-    private const int Nonce = 0;
-
-    public async Task<BlockDomain> GetBlockById(int i)
+    public async Task<BlockDomain> GetBlockById(int id)
     {
-        return await chainRepository.GetBlockBy(i);
+        return await chainRepository.GetBlockBy(id);
     }
 
     public async Task<BlockDomain> GenerateNewBlock(GenerateNewBlockDto dto)
