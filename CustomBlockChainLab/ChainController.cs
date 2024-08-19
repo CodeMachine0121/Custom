@@ -3,14 +3,15 @@ using CustomBlockChainLab.Models.Http;
 using CustomBlockChainLab.Services.Interfaces;
 using EccSDK;
 using EccSDK.models;
-using EccSDK.models.Keys;
+using EccSDK.Models.ChameleonHash;
 using EccSDK.Services;
+using EccSDK.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CustomBlockChainLab;
 
 [Route("api/v1/[controller]")]
-public class ChainController(IChainService chainService, KeyPairDomain keyPairDomain, ChameleonHashService chameleonHashService) : ControllerBase 
+public class ChainController(IChainService chainService, IChameleonHashService chameleonHashService) : ControllerBase 
 {
 
     [HttpGet("{id}")]
@@ -23,9 +24,8 @@ public class ChainController(IChainService chainService, KeyPairDomain keyPairDo
     [HttpPost("new")]
     public async Task<ApiResponse> GenerateNewBlock([FromBody] GenerateNewBlockRequest request)
     {
-        var chameleonHash = chameleonHashService.GetChameleonHash();
+        var chameleonHash = chameleonHashService.GetChameleonHash(request.Data);
         var chameleonSignature = chameleonHashService.Sign(request.Data);
-
 
         var newBlock = await chainService.GenerateNewBlock(request.ToDto(chameleonSignature, chameleonHash));
         return ApiResponse.SuccessWithData(newBlock);

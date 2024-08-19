@@ -4,6 +4,8 @@ using CustomBlockChainLab.Models.Domains;
 using CustomBlockChainLab.Models.Http;
 using CustomBlockChainLab.Services.Interfaces;
 using EccSDK.models.Keys;
+using EccSDK.Services;
+using EccSDK.Services.Interfaces;
 using FluentAssertions;
 using NSubstitute;
 
@@ -15,13 +17,15 @@ public class ChainControllerTests
     private ChainController _chainController;
     private IChainService? _chainService;
     private KeyPairDomain? _keyPairDomain;
+    private IChameleonHashService _chameleonHashService;
 
     [SetUp]
     public void SetUp()
     {
         _chainService = Substitute.For<IChainService>();
         _keyPairDomain = Substitute.For<KeyPairDomain>();
-        _chainController = new ChainController(_chainService, _keyPairDomain);
+        _chameleonHashService = Substitute.For<IChameleonHashService>();
+        _chainController = new ChainController(_chainService, _chameleonHashService);
     }
 
     [Test]
