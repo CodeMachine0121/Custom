@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using CustomBlockChainLab.Models.Domains;
+using EccSDK.models.ChameleonHash;
 
 namespace CustomBlockChainLab.Models.Entities;
 
@@ -25,6 +26,7 @@ public class Block
     [Required]
     public int Nonce { get; set; }
 
+    [Required]
     public string ChameleonSignature { get; set; }
 
     public BlockDomain ToDomain()
@@ -35,7 +37,11 @@ public class Block
             Hash = Hash,
             PreviousHash = PreviousHash,
             TimeStamp = TimeStamp,
-            Nonce = Nonce
+            Nonce = Nonce,
+            ChameleonSignature = new ChameleonSignature
+            {
+                Value = ChameleonSignature
+            }
         };
     }
 }

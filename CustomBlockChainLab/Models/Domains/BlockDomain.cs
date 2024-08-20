@@ -24,7 +24,7 @@ public class BlockDomain
             PreviousHash = PreviousHash,
             TimeStamp = TimeStamp,
             Nonce = Nonce,
-            ChameleonSignature = ChameleonSignature.Value.ToString()
+            ChameleonSignature = ChameleonSignature.Value
         };
     }
 }
