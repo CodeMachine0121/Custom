@@ -34,10 +34,12 @@ public class ChainController(IChainService chainService, IChameleonHashService c
     [HttpPatch("edit/{id}")]
     public async Task<ApiResponse> EditBlock([FromBody] EditBlockRequest request, int id)
     {
+        var chameleonSignature = chameleonHashService.Sign(request.Data);
         await chainService.EditBlock(new EditBlockDto
         {
             Id = id,
-            Data = request.Data 
+            Data = request.Data,
+            ChameleonSignature = chameleonSignature.Value
         });
         
         return ApiResponse.Success();

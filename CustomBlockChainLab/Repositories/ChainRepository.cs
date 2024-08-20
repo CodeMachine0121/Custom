@@ -1,3 +1,4 @@
+using CustomBlockChainLab.Models;
 using CustomBlockChainLab.Models.DataBases;
 using CustomBlockChainLab.Models.Domains;
 using CustomBlockChainLab.Models.Entities;
@@ -27,5 +28,13 @@ public class ChainRepository(BlockchainDbContext blockchainDbContext): IChainRep
     public async Task<int> GetChainLength()
     {
         return await _blocks.CountAsync();
+    }
+
+    public async Task UpdateBlock(EditBlockDto dto)
+    {
+        var blockToUpdate = await _blocks.FirstAsync(x=> x.Id == dto.Id);
+        blockToUpdate.Data = dto.Data;
+        blockToUpdate.ChameleonSignature = dto.ChameleonSignature;
+        await blockchainDbContext.SaveChangesAsync();
     }
 }

@@ -25,8 +25,8 @@ public class ChainService(IChainRepository chainRepository) : IChainService
         return nextBlock;
     }
 
-    public Task EditBlock(EditBlockDto editBlockDto)
+    public async Task EditBlock(EditBlockDto dto)
     {
-       return Task.CompletedTask; 
+        await chainRepository.UpdateBlock(dto);
     }
 }
