@@ -30,4 +30,16 @@ public class ChainController(IChainService chainService, IChameleonHashService c
         var newBlock = await chainService.GenerateNewBlock(request.ToDto(chameleonSignature, chameleonHash));
         return ApiResponse.SuccessWithData(newBlock);
     }
+    
+    [HttpPatch("edit/{id}")]
+    public async Task<ApiResponse> EditBlock([FromBody] EditBlockRequest request, int id)
+    {
+        await chainService.EditBlock(new EditBlockDto
+        {
+            Id = id,
+            Data = request.Data 
+        });
+        
+        return ApiResponse.Success();
+    }
 }

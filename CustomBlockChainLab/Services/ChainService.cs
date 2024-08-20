@@ -24,4 +24,9 @@ public class ChainService(IChainRepository chainRepository) : IChainService
         await chainRepository.InsertBlock(nextBlock);
         return nextBlock;
     }
+
+    public Task EditBlock(EditBlockDto editBlockDto)
+    {
+       return Task.CompletedTask; 
+    }
 }

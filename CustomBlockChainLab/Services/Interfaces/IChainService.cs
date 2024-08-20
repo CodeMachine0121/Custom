@@ -7,4 +7,5 @@ public interface IChainService
 {
     Task<BlockDomain> GetBlockById(int id);
     Task<BlockDomain> GenerateNewBlock(GenerateNewBlockDto dto);
+    Task EditBlock(EditBlockDto editBlockDto);
 }

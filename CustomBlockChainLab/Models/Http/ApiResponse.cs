@@ -15,4 +15,13 @@ public class ApiResponse
             Status = ResponseStatus.Ok
         };
     }
+
+    public static ApiResponse Success()
+    {
+        return new ApiResponse
+        {
+            Status = ResponseStatus.Ok,
+            Data = "" 
+        };
+    }
 }
