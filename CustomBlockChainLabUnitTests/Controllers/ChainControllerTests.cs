@@ -3,6 +3,8 @@ using CustomBlockChainLab.Models;
 using CustomBlockChainLab.Models.Domains;
 using CustomBlockChainLab.Models.Http;
 using CustomBlockChainLab.Services.Interfaces;
+using EccSDK.models.ChameleonHash;
+using EccSDK.Models.ChameleonHash;
 using EccSDK.models.Keys;
 using EccSDK.Services;
 using EccSDK.Services.Interfaces;
@@ -81,4 +83,22 @@ public class ChainControllerTests
         _chainService.Received()?.GenerateNewBlock(Arg.Any<GenerateNewBlockDto>());
         response.Data.GetType().Should().Be(typeof(BlockDomain));
     }
+
+    [Test]
+    public async Task should_get_fail_when_signature_is_not_valid()
+    {
+        _chameleonHashService.Verify(Arg.Any<ChameleonHashVerifyRequest>()).Returns(false);
+        _chameleonHashService.Sign(Arg.Any<string>()).Returns(new ChameleonSignature()
+        {
+            Value = "any-signature"
+        });
+        
+        var response = await _chainController.EditBlock(new EditBlockRequest
+        {
+            Data = "data"
+        }, 1);
+        
+        response.Status.Should().Be(ResponseStatus.Error);
+    }
+
 }
