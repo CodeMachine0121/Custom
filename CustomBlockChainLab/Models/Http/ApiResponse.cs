@@ -24,4 +24,13 @@ public class ApiResponse
             Data = "" 
         };
     }
+
+    public static ApiResponse Fail()
+    {
+        return new ApiResponse()
+        {
+            Status = ResponseStatus.Error,
+            Data = ""
+        };
+    }
 }
