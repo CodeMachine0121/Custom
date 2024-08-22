@@ -33,6 +33,7 @@ public class Block
     {
         return new BlockDomain
         {
+            Id = Id,
             Data = Data,
             Hash = Hash,
             PreviousHash = PreviousHash,

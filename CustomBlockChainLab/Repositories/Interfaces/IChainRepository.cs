@@ -6,7 +6,7 @@ namespace CustomBlockChainLab.Repositories.Interfaces;
 public interface IChainRepository
 {
     Task<BlockDomain> GetBlockBy(int any);
-    Task InsertBlock(BlockDomain newBlockDomain);
+    Task<BlockDomain> InsertBlock(BlockDomain newBlockDomain);
     Task<int> GetChainLength();
-    Task UpdateBlock(EditBlockDto dto);
+    Task<BlockDomain> UpdateBlock(EditBlockDto dto);
 }

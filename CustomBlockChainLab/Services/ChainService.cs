@@ -21,12 +21,11 @@ public class ChainService(IChainRepository chainRepository) : IChainService
 
         var nextBlock = dto.GetNextBlockDomain(previousHash);
 
-        await chainRepository.InsertBlock(nextBlock);
-        return nextBlock;
+        return await chainRepository.InsertBlock(nextBlock);
     }
 
-    public async Task EditBlock(EditBlockDto dto)
+    public async Task<BlockDomain> EditBlock(EditBlockDto dto)
     {
-        await chainRepository.UpdateBlock(dto);
+        return await chainRepository.UpdateBlock(dto);
     }
 }
