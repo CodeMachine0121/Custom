@@ -28,14 +28,14 @@ public class ChainCacheService(IConnectionMultiplexer redisRepository, IChainSer
     public async Task<BlockDomain> GenerateNewBlock(GenerateNewBlockDto dto)
     {
         var generateNewBlock = await chainService.GenerateNewBlock(dto);
-        await _db.StringSetAsync($"block:{generateNewBlock.Id}", JsonSerializer.Serialize(generateNewBlock));
+        await _db.StringSetAsync($"block:{generateNewBlock.Id}", JsonSerializer.Serialize(generateNewBlock),TimeSpan.FromMinutes(5) );
         return generateNewBlock;
     }
 
     public async Task<BlockDomain> EditBlock(EditBlockDto editBlockDto)
     {
         var editBlock = await chainService.EditBlock(editBlockDto);
-        await _db.StringSetAsync($"block:{editBlock.Id}", JsonSerializer.Serialize(editBlock));
+        await _db.StringSetAsync($"block:{editBlock.Id}", JsonSerializer.Serialize(editBlock), TimeSpan.FromMinutes(5));
         return editBlock;
     }
 }
