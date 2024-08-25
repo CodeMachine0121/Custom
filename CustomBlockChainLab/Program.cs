@@ -38,12 +38,15 @@ builder.Services.AddDbContext<BlockchainDbContext>(options =>
 }, ServiceLifetime.Transient);
 
 
-var redisHost = Environment.GetEnvironmentVariables();
+var redis = Environment.GetEnvironmentVariables()["REDIS_SERVER"]!.ToString()!;
+Console.WriteLine($"REDIS_SERVER: {redis}");
 builder.Services.AddSingleton<IConnectionMultiplexer>(
+    
     ConnectionMultiplexer.Connect(
         new ConfigurationOptions
         {
-            EndPoints = { { "localhost", 6379 } }
+            EndPoints = { {redis , 6379 } }
+            
         }
     )
 );

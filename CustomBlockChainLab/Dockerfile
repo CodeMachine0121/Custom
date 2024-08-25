@@ -15,10 +15,11 @@ RUN apk add --no-cache icu-libs
 ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
 ENV ASPNETCORE_HTTP_PORTS=80
 
-ENV DB_SERVER=localhost
+ENV DB_SERVER=mysql
 ENV DB_NAME=Blockchain
 ENV DB_USER=root
-ENV DB_PASS=<YourStrong@Passw0rd> 
+ENV DB_PASS=1234qwer
+ENV REDIS_SERVER=redis
 
 WORKDIR /app
 COPY --from=build /app/published/ ./
