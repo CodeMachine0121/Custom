@@ -2,40 +2,27 @@ using System.Text.Json;
 using CustomBlockChainLab.Models;
 using CustomBlockChainLab.Models.Domains;
 using CustomBlockChainLab.Services.Interfaces;
-using StackExchange.Redis;
+using RedisSDK;
 
 namespace CustomBlockChainLab.Services.Caches;
 
-public class ChainCacheService(IConnectionMultiplexer redisRepository, IChainService chainService)
+public class ChainCacheService(IChainService chainService, RedisManager redisManager)
     : IChainService
 {
-    private readonly IDatabase _db = redisRepository.GetDatabase();
-
     public async Task<BlockDomain> GetBlockById(int id)
     {
-        var cachedBlock = await _db.StringGetAsync($"block:{id}");
-
-        if (!cachedBlock.IsNullOrEmpty)
-        {
-            return JsonSerializer.Deserialize<BlockDomain>(cachedBlock!)!;
-        }
-
-        var blockDomain = await chainService.GetBlockById(id);
-        await _db.StringSetAsync($"block:{id}", JsonSerializer.Serialize(blockDomain), TimeSpan.FromMinutes(5));
-        return blockDomain;
+        return await redisManager.GetOrCreate($"block:{id}", async () => await chainService.GetBlockById(id));
     }
 
     public async Task<BlockDomain> GenerateNewBlock(GenerateNewBlockDto dto)
     {
-        var generateNewBlock = await chainService.GenerateNewBlock(dto);
-        await _db.StringSetAsync($"block:{generateNewBlock.Id}", JsonSerializer.Serialize(generateNewBlock),TimeSpan.FromMinutes(5) );
-        return generateNewBlock;
+        return await redisManager.GetOrCreate($"block:{(await chainService.GenerateNewBlock(dto)).Id}", async () => await chainService.GenerateNewBlock(dto));
     }
 
     public async Task<BlockDomain> EditBlock(EditBlockDto editBlockDto)
     {
-        var editBlock = await chainService.EditBlock(editBlockDto);
-        await _db.StringSetAsync($"block:{editBlock.Id}", JsonSerializer.Serialize(editBlock), TimeSpan.FromMinutes(5));
-        return editBlock;
+        var blockDomain = await chainService.EditBlock(editBlockDto);
+        redisManager.Update($"block:{blockDomain.Id}", blockDomain);
+        return blockDomain;
     }
 }

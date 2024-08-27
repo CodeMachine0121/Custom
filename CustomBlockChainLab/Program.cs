@@ -8,6 +8,7 @@ using EccSDK;
 using EccSDK.Services;
 using EccSDK.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using RedisSDK;
 using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -56,6 +57,7 @@ var keyDomain = EccGenerator.GetKeyDomain();
 builder.Services.AddSingleton(keyDomain);
 builder.Services.AddTransient<IChameleonHashService, ChameleonHashService>();
 
+builder.Services.UseRedisSdk();
 
 var app = builder.Build();
 
